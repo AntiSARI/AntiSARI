@@ -4,7 +4,7 @@ import tornado.ioloop
 from tornado.httpserver import HTTPServer
 from tornado.options import options, define
 from logzero import logger
-from web.entry import make_app, collector_init_url
+from web.entry import make_app, api_url
 from web.models import create_db
 from web.settings import sys_port, timer_loop
 from web.utils.tools import machine_ip
@@ -40,7 +40,7 @@ def server():
         create_db.run()
     elif options.init:
         logger.info("准备疫情数据初始化")
-        SariDataCollector(api=collector_init_url).run()
+        SariDataCollector(api=api_url+'/area?latest=0', init=True).run()
         logger.info("疫情数据初始化完成")
     else:
         logger.info("启动疫情数据定时采集开始启动")

@@ -13,6 +13,6 @@ from web.apps.nosari.urls import urlpatterns as no_sari
 urlpatterns = list()
 
 urlpatterns += merge_route(common, '')
-urlpatterns += merge_route(position, '/position')
+urlpatterns += merge_route(position, '/area')
 urlpatterns += merge_route(no_sari, '/sari')
 

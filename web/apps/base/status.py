@@ -19,6 +19,7 @@ class StatusCode(IntEnum):
     route_error = 10007  # 请求路径不正确
     exist_error = 10008  # 已存在
     not_found_error = 10009  # 不存在
+    file_save_error = 10010  # 文件保存失败
 
 
 class UserCenterStatusCode(StatusCode, IntEnum):

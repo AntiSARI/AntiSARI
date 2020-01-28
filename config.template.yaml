@@ -25,6 +25,7 @@ database:
   password:
 
 collector:
-  url: "http://lab.isaaclin.cn/nCoV/api/area"
-  init-url: "http://lab.isaaclin.cn/nCoV/api/area?latest=0"
+  area-url: "http://lab.isaaclin.cn/nCoV/api/area"
+  overall-url: "http://lab.isaaclin.cn/nCoV/api/overall"
+  news-url: "http://lab.isaaclin.cn/nCoV/api/news"
   timer: 120

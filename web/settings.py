@@ -43,6 +43,5 @@ db_password = database.get('password')
 middleware_list = config.get('middleware') if config.get('middleware') else []
 
 # 数据同步地址
-collector_url = config.get('collector').get('url')
-collector_init_url = config.get('collector').get('init-url')
+api_url = config.get('collector').get('url')
 timer_loop = int(config.get('collector').get('timer', 600)) * 1000

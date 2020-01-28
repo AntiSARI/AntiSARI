@@ -8,6 +8,6 @@
 """
 
 from tasks.collector import SariDataCollector
+from web.settings import api_url
 
-
-SariDataCollector().run()
+SariDataCollector(api=api_url).run()
