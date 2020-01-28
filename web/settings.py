@@ -31,7 +31,6 @@ sys_private_key = system.get('private_key')
 sys_aes_key = system.get('aes_key')
 sys_aes_iv = system.get('aes_iv')
 
-
 # 数据库配置映射
 database = config.get('database')
 db_username = database.get('username')
@@ -40,6 +39,10 @@ db_database = database.get('database')
 db_hostname = database.get('hostname')
 db_password = database.get('password')
 
-
 # 中间件
 middleware_list = config.get('middleware') if config.get('middleware') else []
+
+# 数据同步地址
+collector_url = config.get('collector').get('url')
+collector_init_url = config.get('collector').get('init-url')
+timer_loop = int(config.get('collector').get('timer', 600)) * 1000

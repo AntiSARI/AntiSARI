@@ -4,14 +4,15 @@ import tornado.ioloop
 from tornado.httpserver import HTTPServer
 from tornado.options import options, define
 from logzero import logger
-from web.entry import make_app
+from web.entry import make_app, collector_init_url
 from web.models import create_db
-from web.settings import sys_port
+from web.settings import sys_port, timer_loop
 from web.utils.tools import machine_ip
 from web.utils.z_logger import init_logger
-
+from tasks.collector import SariDataCollector
 
 define("t", default=False, help="create table", type=bool)
+define("init", default=False, help="init data", type=bool)
 define("filename", default=None, help="log file", type=str)
 define("level", default='DEBUG', help="log level", type=str)
 define("maxSize", default=5000, help="log size", type=int)
@@ -37,7 +38,15 @@ def server():
     init_logger(options.filename, options.level, options.maxSize, options.backupCount)
     if options.t:
         create_db.run()
+    elif options.init:
+        logger.info("准备疫情数据初始化")
+        SariDataCollector(api=collector_init_url).run()
+        logger.info("疫情数据初始化完成")
     else:
+        logger.info("启动疫情数据定时采集开始启动")
+        Collector = SariDataCollector()
+        tornado.ioloop.PeriodicCallback(callback=Collector.run, callback_time=timer_loop).start()
+        logger.info("启动疫情数据定时采集启动成功")
         app = make_app(None, log_func)
         http_Server = HTTPServer(app, max_buffer_size=504857600, max_body_size=504857600)
         http_Server.listen(sys_port)

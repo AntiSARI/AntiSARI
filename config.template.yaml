@@ -23,3 +23,8 @@ database:
   database:
   username:
   password:
+
+collector:
+  url: "http://lab.isaaclin.cn/nCoV/api/area"
+  init-url: "http://lab.isaaclin.cn/nCoV/api/area?latest=0"
+  timer: 120
