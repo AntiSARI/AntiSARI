@@ -1,0 +1,25 @@
+system:
+  debug: True
+  secret: RZ1PcBzqbfQ9fkVqXWLiS4ZyeXihVYIN
+  prefix:
+  port: 8090
+  login_url:
+  static:
+  templates:
+  static_url_prefix:
+  xsrf_cookies: True
+  auto_reload: True
+  jwt_expire: 7*24*3600
+  public_key:
+  private_key:
+  aes_key:
+  aes_iv:
+
+middleware:
+
+database:
+  hostname:
+  port:
+  database:
+  username:
+  password:
