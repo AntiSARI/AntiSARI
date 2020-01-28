@@ -7,7 +7,7 @@
 @Time :    2020/1/28 下午1:56
 """
 import os
-from web.apps.common.controller import FileServerHandler, UploadItemHandler
+from web.apps.public.controller import FileServerHandler, UploadItemHandler
 
 urlpatterns = [
     (r'/uploader', FileServerHandler),

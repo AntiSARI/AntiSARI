@@ -24,8 +24,8 @@ class Middleware(object):
 
 class MiddleHandler(tornado.web.RequestHandler, ABC):
     """
-                 中间件处理基类  顺序执行  中间件
-             """
+      中间件处理基类  顺序执行  中间件
+    """
 
     def initialize(self):
         try:
