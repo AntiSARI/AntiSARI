@@ -1,4 +1,22 @@
+# python
+**/__pycache__/
+*.py[cod]
+*.egg
+*.egg-info
+*.installed.cfg
+*.pid
+
+# virtual environment
+**/venv/
+
+# Editor directories and files
+*.idea
+*.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 config.yaml
-__pycache__
 uploads
-.idea
