@@ -42,4 +42,4 @@ db_password = database.get('password')
 
 
 # 中间件
-middleware_list = config.get('middles') if config.get('middles') else []
+middleware_list = config.get('middleware') if config.get('middleware') else []
