@@ -12,7 +12,6 @@ from web.utils.z_logger import init_logger
 
 
 define("t", default=False, help="create table", type=bool)
-define("key", default=False, help="generate sm key pair", type=bool)
 define("filename", default=None, help="log file", type=str)
 define("level", default='DEBUG', help="log level", type=str)
 define("maxSize", default=5000, help="log size", type=int)
