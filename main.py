@@ -40,7 +40,7 @@ def server():
         create_db.run()
     elif options.init:
         logger.info("准备疫情数据初始化")
-        SariDataCollector(api=api_url+'/area?latest=0', init=True).run()
+        SariDataCollector(init=True).run()
         logger.info("疫情数据初始化完成")
     else:
         logger.info("启动疫情数据定时采集开始启动")
