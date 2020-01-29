@@ -53,3 +53,39 @@ apply_video_template = """
   </Video>
 </xml>
 """
+
+apply_view_template = """
+<xml>
+  <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+  <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+  <CreateTime>{CreateTime}</CreateTime>
+  <MsgType><![CDATA[event]]></MsgType>
+  <Event><![CDATA[VIEW]]></Event>
+  <EventKey><![CDATA[{EventKey}]]></EventKey>
+</xml>
+"""
+
+
+apply_news_template_start = """
+<xml>
+  <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+  <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+  <CreateTime>{CreateTime}</CreateTime>
+  <MsgType><![CDATA[news]]></MsgType>
+  <ArticleCount>{ArticleCount}</ArticleCount>
+  <Articles>
+"""
+
+apply_news_template_item = """
+    <item>
+      <Title><![CDATA[{Title}]]></Title>
+      <Description><![CDATA[{Description}]]></Description>
+      <PicUrl><![CDATA[{PicUrl}]]></PicUrl>
+      <Url><![CDATA[{Url}]]></Url>
+    </item>
+"""
+
+apply_news_template_end = """
+  </Articles>
+</xml>
+"""

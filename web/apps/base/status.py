@@ -20,6 +20,7 @@ class StatusCode(IntEnum):
     exist_error = 10008  # 已存在
     not_found_error = 10009  # 不存在
     file_save_error = 10010  # 文件保存失败
+    third_api_error = 10011  # 文件保存失败
 
 
 class UserCenterStatusCode(StatusCode, IntEnum):

@@ -8,8 +8,10 @@
 """
 
 from web.apps.gateway.controller import WxGatewayHandler, JsApiHandler
+from web.apps.gateway.wx_controller import WxMenuHandler
 
 urlpatterns = [
     (r'/gateway', WxGatewayHandler),
-    (r'/JsApi/(.*?)', JsApiHandler)
+    (r'/JsApi/(.*?)', JsApiHandler),
+    (r'/menus', WxMenuHandler)
 ]

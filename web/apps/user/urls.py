@@ -6,9 +6,10 @@
 @Software: PyCharm
 @Time :    2020/1/28 下午11:58
 """
-from web.apps.user.controller import CompanyHandler, UserHandler
+from web.apps.user.controller import CompanyHandler, UserHandler, UserCheckInHandler
 
 urlpatterns = [
     (r'/enterprise', CompanyHandler),
+    (r'/checkIn', UserCheckInHandler),
     (r'/employee', UserHandler)
 ]

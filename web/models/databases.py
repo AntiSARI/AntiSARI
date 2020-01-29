@@ -6,6 +6,8 @@
 @Software: PyCharm
 @Time :    2019/12/5 上午10:48
 """
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, String, TEXT, Table, ForeignKey, Boolean, Enum, DateTime, and_
 from sqlalchemy.orm import relationship
 from web.models.dbSession import ModelBase, dbSession
@@ -395,5 +397,192 @@ class User(ModelBase):
             "openId": self.openId,
             # "status": self.status,
             "createTime": self.createTime,
+            "updateTime": self.updateTime
+        }
+
+
+class CheckInRecordModel(ModelBase):
+    __tablename__ = 'check_in_record'
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    userId = Column(String(64), comment="用户ID")
+    enterpriseId = Column(String(64), comment="企业id")
+    address = Column(String(255), nullable=True, comment="地址")
+    latitude = Column(String(64), comment="纬度")
+    longitude = Column(String(64), comment="经度")
+    status = Column(Integer, default=0, comment="状态")
+    createTime = Column(DateTime, nullable=True, comment="创建时间", default=datetime.now)
+    updateTime = Column(DateTime, nullable=True, comment="更新时间")
+
+    @classmethod
+    def by_id(cls, kid):
+        return dbSession.query(cls).filter_by(id=kid).first()
+
+    @classmethod
+    def by_user_id(cls, kid, page=1, page_size=10):
+        start = page_size * (page - 1)
+        end = page * page_size
+        return dbSession.query(cls).filter_by(userId=kid).order_by(-cls.createTime).slice(start, end).all()
+
+    @classmethod
+    def all(cls):
+        return dbSession.query(cls).order_by(-cls.createTime).all()
+
+    @classmethod
+    def paginate(cls, page=1, page_size=10, userId=None):
+        start = page_size * (page - 1)
+        end = page * page_size
+        if userId:
+            return dbSession.query(cls).filter(CheckInRecordModel.userId == userId).order_by(-cls.createTime).slice(start, end).all()
+        else:
+            return dbSession.query(cls).order_by(-cls.createTime).slice(start, end).all()
+
+    @property
+    def _createTime(self):
+        if self.createTime:
+            return self.createTime.strftime('%Y-%m-%d %H:%M:%S')
+
+    @property
+    def _updateTime(self):
+        if self.updateTime:
+            return self.updateTime.strftime('%Y-%m-%d %H:%M:%S')
+
+    def to_dict(self):
+        return {
+            "userId": self.userId,
+            "enterpriseId": self.enterpriseId,
+            "address": self.address,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "status": self.status,
+            "createTime": self._createTime,
+            "updateTime": self.updateTime
+        }
+
+
+def EventType():
+    return [
+        {"label": "点击", "value": "CLICK"},
+        {"label": "获取地址", "value": "LOCATION"},
+        {"label": "扫码", "value": "SCAN"},
+        {"label": "跳转", "value": "VIEW"},
+        {"label": "文本", "value": "TEXT"}
+    ]
+
+
+def MsgType():
+    return [
+        {"label": "文本", "value": "text"},
+        {"label": "事件", "value": "event"}
+    ]
+
+
+def ApplyType():
+    return [
+        {"label": "文本", "value": "text"},
+        {"label": "图片", "value": "image"},
+        {"label": "新闻", "value": "news"},
+        {"label": "链接跳转", "value": "view"}
+    ]
+
+
+class AuthReplyModel(ModelBase):
+    __tablename__ = 'auto_reply'
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    EventKey = Column(String(128), comment="自动回复关键字")
+    EventType = Column(String(64), comment="类型")
+    ApplyType = Column(String(64), comment="回复类型")
+    MsgType = Column(String(64), comment="消息类型")
+    EventValue = Column(TEXT, comment="触发返回值")
+    createTime = Column(DateTime, nullable=True, comment="创建时间", default=datetime.now)
+    updateTime = Column(DateTime, nullable=True, comment="更新时间")
+
+    @classmethod
+    def by_id(cls, kid):
+        return dbSession.query(cls).filter_by(id=kid).first()
+
+    @classmethod
+    def get_one(cls, key, eType, msgType):
+        return dbSession.query(cls) \
+            .filter(and_(AuthReplyModel.EventKey == key,
+                         AuthReplyModel.EventType == eType,
+                         AuthReplyModel.MsgType == msgType)) \
+            .first()
+
+    @classmethod
+    def all(cls):
+        return dbSession.query(cls).order_by(-cls.createTime).all()
+
+    @classmethod
+    def paginate(cls, page=1, page_size=10):
+        start = page_size * (page - 1)
+        end = page * page_size
+        return dbSession.query(cls).order_by(-cls.createTime).slice(start, end).all()
+
+    @property
+    def _createTime(self):
+        if self.createTime:
+            return self.createTime.strftime('%Y-%m-%d %H:%M:%S')
+
+    @property
+    def _updateTime(self):
+        if self.updateTime:
+            return self.updateTime.strftime('%Y-%m-%d %H:%M:%S')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "EventKey": self.EventKey,
+            "EventType": self.EventType,
+            "EventValue": self.EventValue,
+            "ApplyType": self.ApplyType,
+            "createTime": self._createTime,
+            "updateTime": self.updateTime
+        }
+
+
+class NewsModel(ModelBase):
+    __tablename__ = 'news'
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    Title = Column(String(128), comment="自动回复关键字")
+    Description = Column(TEXT, comment="描述")
+    Content = Column(TEXT, comment="内容")
+    Url = Column(String(128), comment="连接地址")
+    PicUrl = Column(String(128), comment="图片地址")
+    createTime = Column(DateTime, nullable=True, comment="创建时间", default=datetime.now)
+    updateTime = Column(DateTime, nullable=True, comment="更新时间")
+
+    @classmethod
+    def by_id(cls, kid):
+        return dbSession.query(cls).filter_by(id=kid).first()
+
+    @classmethod
+    def all(cls):
+        return dbSession.query(cls).order_by(-cls.createTime).all()
+
+    @classmethod
+    def paginate(cls, page=1, page_size=10):
+        start = page_size * (page - 1)
+        end = page * page_size
+        return dbSession.query(cls).order_by(-cls.createTime).slice(start, end).all()
+
+    @property
+    def _createTime(self):
+        if self.createTime:
+            return self.createTime.strftime('%Y-%m-%d %H:%M:%S')
+
+    @property
+    def _updateTime(self):
+        if self.updateTime:
+            return self.updateTime.strftime('%Y-%m-%d %H:%M:%S')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "Title": self.Title,
+            "Description": self.Description,
+            "Content": self.Content,
+            "Url": self.Url,
+            "PicUrl": self.PicUrl,
+            "createTime": self._createTime,
             "updateTime": self.updateTime
         }

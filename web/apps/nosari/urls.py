@@ -6,10 +6,11 @@
 @Software: PyCharm
 @Time :    2020/1/28 下午1:58
 """
-from web.apps.nosari.controller import NoSariHandler, NoSariNewsHandler, NoSariOverallHandler
+from web.apps.nosari.controller import NoSariHandler, NoSariNewsHandler, NoSariOverallHandler, NoSariOverSeaHandler
 
 urlpatterns = [
     (r'/news', NoSariNewsHandler),
     (r'/overall', NoSariOverallHandler),
-    (r'', NoSariHandler)
+    (r'', NoSariHandler),
+    (r'/oversea', NoSariOverSeaHandler)
 ]

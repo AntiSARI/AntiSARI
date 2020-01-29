@@ -16,15 +16,23 @@ class NoSariHandler(BaseRequestHandler, ABC):
 
     async def get(self):
         response = dict(code=StatusCode.success.value)
-        location = self.get_argument('location', None)
-        if location:
-            result = await records(self, location)
+        province = self.get_argument('province', None)
+        if province:
+            result = await record_by_province(self, province)
         else:
-            province = self.get_argument('province', None)
-            if province:
-                result = await record_by_province(self, province)
-            else:
-                result = await records(self)
+            result = await records(self)
+        response['code'] = result['code']
+        response['message'] = result['msg']
+        if result['status']:
+            response['data'] = result['data']
+        return self.write_json(response)
+
+
+class NoSariOverSeaHandler(BaseRequestHandler, ABC):
+
+    async def get(self):
+        response = dict(code=StatusCode.success.value)
+        result = await records(self, True)
         response['code'] = result['code']
         response['message'] = result['msg']
         if result['status']:

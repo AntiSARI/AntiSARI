@@ -4,9 +4,8 @@ import tornado.ioloop
 from tornado.httpserver import HTTPServer
 from tornado.options import options, define
 from logzero import logger
-
 from tasks.TaskTimer import TaskTimer
-from web.entry import make_app, api_url
+from web.entry import make_app
 from web.models import create_db
 from web.settings import sys_port, timer_loop
 from web.utils.cache import jsapi_ticket
