@@ -11,5 +11,5 @@ from web.apps.gateway.controller import WxGatewayHandler, JsApiHandler
 
 urlpatterns = [
     (r'/gateway', WxGatewayHandler),
-    (r'/gateway/JsApi/(.*?)', JsApiHandler)
+    (r'/JsApi/(.*?)', JsApiHandler)
 ]
