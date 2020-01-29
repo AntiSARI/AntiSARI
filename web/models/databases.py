@@ -535,8 +535,9 @@ class AuthReplyModel(ModelBase):
             "EventType": self.EventType,
             "EventValue": self.EventValue,
             "ApplyType": self.ApplyType,
+            "MsgType": self.MsgType,
             "createTime": self._createTime,
-            "updateTime": self.updateTime
+            "updateTime": self._updateTime
         }
 
 
@@ -584,5 +585,5 @@ class NewsModel(ModelBase):
             "Url": self.Url,
             "PicUrl": self.PicUrl,
             "createTime": self._createTime,
-            "updateTime": self.updateTime
+            "updateTime": self._updateTime
         }

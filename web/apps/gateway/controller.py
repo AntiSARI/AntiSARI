@@ -19,9 +19,7 @@ class WxGatewayHandler(BaseRequestHandler, ABC):
     async def post(self):
         try:
             xml = self.get_xml_json().get('xml')
-            print(xml)
             result = await robot_ctrl(self, xml)
-            print(result)
             return self.write(result)
         except Exception as e:
             logger.exception(e)
