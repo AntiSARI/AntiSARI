@@ -4,15 +4,19 @@ import tornado.ioloop
 from tornado.httpserver import HTTPServer
 from tornado.options import options, define
 from logzero import logger
+
+from tasks.TaskTimer import TaskTimer
 from web.entry import make_app, api_url
 from web.models import create_db
 from web.settings import sys_port, timer_loop
+from web.utils.cache import jsapi_ticket
 from web.utils.tools import machine_ip
 from web.utils.z_logger import init_logger
-from tasks.collector import SariDataCollector
+from tasks.collector import SariDataCollector, run
 
 define("t", default=False, help="create table", type=bool)
 define("init", default=False, help="init data", type=bool)
+define("cache", default=False, help="cache wechat data", type=bool)
 define("filename", default=None, help="log file", type=str)
 define("level", default='DEBUG', help="log level", type=str)
 define("maxSize", default=5000, help="log size", type=int)
@@ -42,10 +46,16 @@ def server():
         logger.info("准备疫情数据初始化")
         SariDataCollector(init=True).run()
         logger.info("疫情数据初始化完成")
+    elif options.cache:
+        logger.info("准备微信参数缓存")
+        jsapi_ticket()
+        logger.info("微信参数缓存完成")
     else:
         logger.info("启动疫情数据定时采集开始启动")
-        Collector = SariDataCollector()
-        tornado.ioloop.PeriodicCallback(callback=Collector.run, callback_time=timer_loop).start()
+        timer = TaskTimer()
+        timer.join_task(run, [], interval=timer_loop)
+        timer.join_task(jsapi_ticket, [], interval=7100)
+        timer.start()
         logger.info("启动疫情数据定时采集启动成功")
         app = make_app(None, log_func)
         http_Server = HTTPServer(app, max_buffer_size=504857600, max_body_size=504857600)

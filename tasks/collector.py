@@ -9,6 +9,8 @@
 import json
 from logzero import logger
 from urllib import request
+
+from tasks.TaskTimer import TaskTimer
 from web.models.databases import SariRecord, SariOverall, SariNews
 from web.settings import api_url
 from datetime import datetime
@@ -127,3 +129,7 @@ class SariDataCollector(object):
 
         self.log.info(f"Fetch Data End At : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
+
+def run():
+    Collector = SariDataCollector()
+    Collector.run()

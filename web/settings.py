@@ -44,4 +44,10 @@ middleware_list = config.get('middleware') if config.get('middleware') else []
 
 # 数据同步地址
 api_url = config.get('collector').get('url')
-timer_loop = int(config.get('collector').get('timer', 600)) * 1000
+timer_loop = int(config.get('collector').get('timer', 600))
+
+
+# 微信公众号配置
+wx_token = config.get('WX').get('token')
+wx_app_id = config.get('WX').get('app_id')
+wx_app_secret = config.get('WX').get('app_secret')

@@ -6,8 +6,11 @@
 @Software: PyCharm
 @Time :    2019/12/5 上午11:50
 """
+import json
 import os
 from abc import ABC
+
+import xmltodict
 from tornado.escape import json_decode
 from web.models.dbSession import dbSession
 from web.utils import jsondate
@@ -99,6 +102,9 @@ class BaseRequestHandler(CorsMiddleware, MiddleHandler, ABC):
 
     def get_payload(self):
         return json_decode(self.request.body)
+
+    def get_xml_json(self):
+        return json_decode(json.dumps(xmltodict.parse(self.request.body.decode())))
 
     def on_finish(self):
         super(BaseRequestHandler, self).on_finish()

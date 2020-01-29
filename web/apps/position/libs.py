@@ -2,7 +2,7 @@
 """
 @ProjectName: AntiSARI
 @Author:  Javen Yan
-@File: libs.py
+@File: common.py
 @Software: PyCharm
 @Time :    2020/1/28 下午7:33
 """
